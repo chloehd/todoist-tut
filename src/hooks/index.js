@@ -13,13 +13,14 @@ export const useTasks = selectedProject => {
       .collection('tasks')
       .where('userId', '==', '6is4jTWiJ6eR');
 
-      unsubscribe = selectedProject && !collatedTasksExist(selectedProject) ? 
-      (unsubscribe = unsubscribe.where('projectId', '==', selectedProject))
-      : selectedProject === 'TODAY'
-      ? (unsubscribe = unsubscribe.where('date', '==', moment().format('DD/MM/YYYY')))
-      : selectedProject === 'INBOX'|| selectedProject === 0
-      ? (unsubscribe = unsubscribe.where('date', '==', ''))
-      : unsubscribe;
+      unsubscribe = 
+        selectedProject && !collatedTasksExist(selectedProject) 
+          ? (unsubscribe = unsubscribe.where('projectId', '==', selectedProject))
+          : selectedProject === 'TODAY'
+          ? (unsubscribe = unsubscribe.where('date', '==', moment().format('DD/MM/YYYY')))
+          : selectedProject === 'INBOX'|| selectedProject === 0
+          ? (unsubscribe = unsubscribe.where('date', '==', ''))
+          : unsubscribe;
 
       unsubscribe = unsubscribe.onSnapshot(snapshot => {
         const newTasks = snapshot.docs.map(task => ({
@@ -52,7 +53,8 @@ export const useProjects = () => {
       .collection('projects')
       .where('userId', '==', '6is4jTWiJ6eR' )
       .orderBy('projectId')
-      .get().then(snapshot => {
+      .get()
+      .then(snapshot => {
         const allProjects = snapshot.docs.map(project => ({
           ...project.data(),
           docId : project.id,
