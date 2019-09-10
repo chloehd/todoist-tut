@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { firebase } from '../firebase';
 import { generatePushId } from '../helpers';
-import { useProjectsValue, useSelectedProjectValue } from '../context';
+import { useProjectsValue } from '../context';
 
 export const AddProject = ({shouldShow = false}) => {
   const [show, setShow] = useState(shouldShow);
@@ -10,7 +10,7 @@ export const AddProject = ({shouldShow = false}) => {
   const projectId = generatePushId();
   const {setProjects} = useProjectsValue();
 
-  const AddProject = () => 
+  const addProject = () => 
     projectName &&
     firebase 
       .firestore()
@@ -28,7 +28,8 @@ export const AddProject = ({shouldShow = false}) => {
       
       return (
         <div className="add-project" data-testid="add-project">
-          {show && <div className="add-project__input">
+          {show && 
+          (<div className="add-project__input">
             <input 
               type="text"
               value={projectName}
@@ -40,7 +41,7 @@ export const AddProject = ({shouldShow = false}) => {
               <button
                 className="add-project__submit"
                 type="button"
-                onClick={() => AddProject()}
+                onClick={() => addProject()}
                 data-testid="add-project-submit"
               >
                 Add Project
@@ -52,7 +53,7 @@ export const AddProject = ({shouldShow = false}) => {
               >
                 Cancel
               </span>
-          </div>
+          </div>)
           }
           <span className="add-project__plus">+</span>
               <span 
@@ -63,6 +64,6 @@ export const AddProject = ({shouldShow = false}) => {
                 Add Project
               </span>
         </div>
-      )
+      );
 
-}
+};
