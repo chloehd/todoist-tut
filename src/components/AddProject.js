@@ -8,7 +8,7 @@ export const AddProject = ({shouldShow = false}) => {
   const [projectName, setProjectName] = useState('');
 
   const projectId = generatePushId();
-  const {setProjects} = useProjectsValue();
+  const { projects, setProjects} = useProjectsValue();
 
   const addProject = () => 
     projectName &&
@@ -21,7 +21,7 @@ export const AddProject = ({shouldShow = false}) => {
         userId: '6is4jTWiJ6eR'
       })
       .then(() => {
-        setProjects([]);
+        setProjects([...projects]);
         setProjectName('');
         setShow(false);
       });
@@ -29,7 +29,10 @@ export const AddProject = ({shouldShow = false}) => {
       return (
         <div className="add-project" data-testid="add-project">
           {show && 
-          (<div className="add-project__input">
+          (<div 
+              className="add-project__input"
+              data-testid="add-project-inner"
+            >
             <input 
               type="text"
               value={projectName}
@@ -57,7 +60,7 @@ export const AddProject = ({shouldShow = false}) => {
           }
           <span className="add-project__plus">+</span>
               <span 
-                data-testid="hide-project-action"
+                data-testid="add-project-action"
                 className="add-project__text"
                 onClick={() => setShow(!show)}
               >
